@@ -11,7 +11,7 @@ order by brand_name,product_name
 select p.product_name,c.category_name,p.list_price from [production].[products] p
 inner join [production].[categories] c
 on c.category_id=p.category_id
-order by list_price asc
+order by c.category_name,list_price asc
 
 
 -- Q3
@@ -25,7 +25,7 @@ order by order_date desc
 -- Q4
 -- Display each order item with the product name, quantity, unit price, and a computed column called "Line Total" (quantity × list_price). Sort by order ID.
 select p.product_name,oi.quantity,oi.list_price as unit_price,(oi.quantity*oi.list_price) as Line_total from  [sales].[order_items] oi
-left join [production].[products] p
+inner join [production].[products] p
 on p.product_id=oi.product_id
 order by order_id;
 
@@ -93,9 +93,9 @@ select p.product_name,oi.quantity as stock_quantity,s.store_id from [production]
 left join 
 [sales].[order_items] oi
 on p.product_id=oi.product_id
-inner join   [sales].[orders] o
+left join   [sales].[orders] o
 on o.order_id=oi.order_id
-inner join
+left join
 [sales].[stores] s
 on o.store_id=s.store_id
  
@@ -135,7 +135,7 @@ c.category_id=p.category_id
 -- QUERY ON VIEWS
 select * from vw_bike_catalog
 where list_price > 2000
-order by desc
+order by list_price desc
 
 -- Q16
 -- BONUS: Create a view called vw_customer_orders showing: customer full name, order_id, order_date, store_name, and order_status. Then query it to show only orders where the customer city is "New York", sorted by order_date.
